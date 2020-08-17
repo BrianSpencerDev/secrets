@@ -29,7 +29,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
+mongoose.connect("mongodb+srv://" + process.env.DB_USERNAME_N_PASSWORD + "@cluster1.b8r6t.mongodb.net/userDB", {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+  .catch(err => {
+    console.log(err);
+  });
 
 const userSchema = new mongoose.Schema({
   email: String,
@@ -198,6 +201,6 @@ app.post("/login", function(req, res){
 
 });
 
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
   console.log("server is running on port 3000");
 });
