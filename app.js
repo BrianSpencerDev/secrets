@@ -72,18 +72,18 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-passport.use(new FacebookStrategy({
-    clientID: process.env.APP_ID,
-    clientSecret: process.env.APP_SECRET,
-    callbackURL: "https://guarded-ravine-40558.herokuapp.com/auth/facebook/secrets"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOrCreate({facebookId: profile.id}, function(err, user) {
-      if (err) { return done(err); }
-      done(null, user);
-    });
-  }
-));
+// passport.use(new FacebookStrategy({
+//     clientID: process.env.APP_ID,
+//     clientSecret: process.env.APP_SECRET,
+//     callbackURL: "https://guarded-ravine-40558.herokuapp.com/auth/facebook/secrets"
+//   },
+//   function(accessToken, refreshToken, profile, done) {
+//     User.findOrCreate({facebookId: profile.id}, function(err, user) {
+//       if (err) { return done(err); }
+//       done(null, user);
+//     });
+//   }
+// ));
 
 app.get("/", function(req, res){
   res.render("home");
@@ -99,15 +99,12 @@ app.get('/auth/google/secrets',
   }
 );
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
-
-app.get('/auth/facebook/secrets',
-  passport.authenticate('facebook', { //successRedirect: '/secrets',
-                                      failureRedirect: '/login' }),
-  function(req, res){
-    res.redirect("/secrets");
-  }
-);
+// app.get('/auth/facebook', passport.authenticate('facebook'));
+//
+// app.get('/auth/facebook/secrets',
+//   passport.authenticate('facebook', { successRedirect: '/secrets',
+//                                       failureRedirect: '/login' }),
+// );
 
 app.get("/login", function(req, res){
   res.render("login");
